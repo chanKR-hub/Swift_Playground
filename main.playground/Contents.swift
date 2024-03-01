@@ -1,100 +1,111 @@
 // Collector types
+//
 
-// 2.Set
-// 오늘은 ios 16버전과 ios 17버전에서 업데이트 된 기능들을 집합으로 표현해보고자 합니다. 또한 이 두 집합의 연산을 통하여 새로운 버전을 만드는 예제를 진행해보겠습니다.
+// 3.Array(배열)
 
-// 2-1. 빈 Set 생성
+// 3-1. 빈 배열 생성 및 초기화
 
-var someSet = Set<Int>() // or var someSet : Set<String> = [] , 이처럼 후자처럼 []을 이용한 선언(생성)이 던 편해보이지만, 공식문서에서는 전자처럼 ()를 이용한 선언만 언급함.
-someSet.insert(5) // 기본적인 원소 추가
-someSet.insert(6)
-someSet.insert(7)
-someSet.insert(8)
-someSet.insert(9)
-someSet = []      // 빈 배열로 초기화
+var someInts: [Int] = []
+print("someInts is of type [Int] with \(someInts.count) items.")
+// Prints "someInts is of type [Int] with 0 items."
 
 
-
-//서브 스크립트를 통한 생성
-var ios_sixteen : Set<String> = ["개인정보 보호",                 //ios 16에서 업데이트 된 기능들.
-                                 "잠금화면 꾸미기",
-                                 "집중모드",
-                                 "메시지",
-                                 "Mail",
-                                 "라이브텍스트"]
-
-var ios_seventeen : Set<String> = ["개인정보 보호",               //ios 17에서 업데이트 된 기능들.
-                                   "스탠바이",
-                                   "실시간 음성 메시지",
-                                   "연락처 포스터",
-                                   "일기",
-                                   "NameDrop",
-                                   "Mail",
-                                   "라이브텍스트"]
+someInts.append(3)
+// someInts now contains 1 value of type Int
+someInts = []
+// someInts is now an empty array, but is still of type [Int]
 
 
+//기본값 배열 생성 (Creating an Array with a Default Value)
+var threeDoubles = Array(repeating: 0.0, count: 3)
+// threeDoubles is of type [Double], and equals [0.0, 0.0, 0.0]
 
-// 2-2. Set의 원소의 접근 및 생성과 삭제
-var ios_test : Set<String> = []                               // 새로운 버전을 만들기 위해서 test 버전을 만듬.
 
-ios_test.insert("문자 메시지")
-ios_test.insert("생성형 AI 탑재")
+//배열 리터럴로 생성 (Creating an Array with an Array Literal)
+var shoppingList: [String] = ["Eggs", "Milk"]
+// shoppingList has been initialized with two initial items
 
-if ios_test.isEmpty{
-    print("Please add some features.")
-}else{
-    print("test version has \(ios_test.count) features.")     // count 프로퍼티 & isEmpty 프로퍼티
+
+// 3-2. 배열 접근과 수정
+
+print("The shopping list contains \(shoppingList.count) items.") // 배열의 크기 -> count 프로퍼티
+// Prints "The shopping list contains 2 items."
+
+
+// 배열이 비었는지 확인하는 isEmpty 프로퍼티
+if shoppingList.isEmpty {
+    print("The shopping list is empty.")
+} else {
+    print("The shopping list is not empty.")
 }
+// Prints "The shopping list is not empty."
 
-ios_test.remove("문자 메시지") // 원소를 제거해주는 remove(_:) 메서드
+
+// 배열 끝에 데이터 추가
+shoppingList.append("Flour")
+// shoppingList now contains 3 items, and someone is making pancakes
 
 
-if !ios_test.contains("개인정보 보호"){ // 찾고자 하는 원소가 집합 안에 들어있는지 확인해주는 contain(_:) 메서드
-    ios_test.insert("개인정보 보호")
+// 배열 끼리의 연산(추가)
+shoppingList += ["Baking Powder"]
+// shoppingList now contains 4 items
+shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
+// shoppingList now contains 7 items
+
+
+// 서브스크립트를 통한 수정
+shoppingList[0] = "Six eggs"
+// the first item in the list is now equal to "Six eggs" rather than "Eggs"
+
+
+// 범위를 지정하여 한꺼번에 수정
+shoppingList[4...6] = ["Bananas", "Apples"]
+// shoppingList now contains 6 items
+
+
+//특정 인덱스에 원소 삽입
+shoppingList.insert("Maple Syrup", at: 0)
+// shoppingList now contains 7 items
+// "Maple Syrup" is now the first item in the list
+
+
+//배열의 특정 인덱스의 요소 삭제
+let mapleSyrup = shoppingList.remove(at: 0)
+// the item that was at index 0 has just been removed
+// shoppingList now contains 6 items, and no Maple Syrup
+// the mapleSyrup constant is now equal to the removed "Maple Syrup" string.
+
+
+//마지막 요소 삭제
+let apples = shoppingList.removeLast()
+// the last item in the array has just been removed
+// shoppingList now contains 5 items, and no apples
+// the apples constant is now equal to the removed "Apples" string
+
+
+// 3-3. 배열의 반복
+
+
+// 그냥 반복
+for item in shoppingList {
+    print(item)
 }
+// Six eggs
+// Milk
+// Flour
+// Baking Powder
+// Bananas
 
 
-// 2-3. Set 반복
-
-for features in ios_test{
-    print("\(features) is contained in ios test version")
+//enumerated 메서드를 이용한 인덱스와 Item 분리및 반복
+for (index, value) in shoppingList.enumerated() {
+    print("Item \(index + 1): \(value)")
 }
-
-for features in ios_test.sorted(){
-    print("\(features) is contained in ios test version")  // 집합 원소 사이에 순서를 부여해주는 sorted()메서드 (필요할 때만 써도 됌 필수 아님)
-}
-
-
-// 2.4 Set 연산
-
-// 합집합, 차집합, 교집합, 드모르간의 법칙(symmetricDifference)??
-var commonThing = ios_sixteen.intersection(ios_seventeen)  // ios 16과 ios 17 사이의 공통된 업데이트
-// ["라이브텍스트", "Mail", "개인정보 보호"]
-
-var new_version = ios_seventeen.union(ios_test) // ios 17에 test 버젼의 기능을 더한(합집합) 새로운 버전
-// ["생성형 AI 탑재", "실시간 음성 메시지", "개인정보 보호", "연락처 포스터", "일기", "Mail", "라이브텍스트", "스탠바이", "NameDrop"]
-
-
-var only_seventeen = ios_seventeen.subtracting(ios_sixteen) // ios 17 버전에서 ios 16의 원소들을 뺀(차집합) 집합.
-// ["실시간 음성 메시지", "연락처 포스터", "NameDrop", "스탠바이", "일기"]
-
-var some_featerues = ios_sixteen.symmetricDifference(ios_seventeen)
-// ["메시지", "집중모드", "실시간 음성 메시지", "스탠바이", "연락처 포스터", "NameDrop", "잠금화면 꾸미기", "일기"]
-
-
-
-// 집합의 포함관계 - 초집합(SuperSet), 부분집합(SubSet), 서로소(disjoint)
-
-new_version.isSuperset(of: ios_seventeen)  // 초집합 (인지 확인하는 메서드) - true
-
-ios_seventeen.isSubset(of: new_version) // 부분집합(인지 확인하는 메서드) - true
-
-ios_test.isDisjoint(with: ios_sixteen) // 서로소(인지 확인하는 메서드) - false
-
-
-
-
-
+// Item 1: Six eggs
+// Item 2: Milk
+// Item 3: Flour
+// Item 4: Baking Powder
+// Item 5: Bananas
 
 
 
